@@ -19,13 +19,13 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
   var scrollTarget = this.scrollTarget;
   var fixedHeaderOffset = this.fixedHeaderOffset;
 	var elCopy = el.cloneNode(true);
-	var clones = document.getElementsByClassName('cloned');
 	var elCopyStyle = elCopy.style;
   var elCopyClasses = elCopy.classList;
   var elParent = el.parentNode;
 	var lastChildHeight = el.nextSibling.lastChild.offsetHeight || 0;
   var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
   var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
+	var clones = elParent.getElementsByClassName('cloned');
 
   function fixing() {
 		var browserWidth = window.innerWidth;
@@ -55,7 +55,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 
 					if(clones.length > 0) {
 						for(var i = clones.length - 1; i > 0; i--) {
-							clones[i].parentElement.removeChild(clones[i]);
+							clones[i].parentNode.removeChild(clones[i]);
 						}
 					}
 				}
