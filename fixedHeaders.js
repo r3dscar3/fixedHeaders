@@ -52,12 +52,6 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 					elCopyStyle.position = 'fixed';
 					elCopyStyle.top = fixedHeaderOffset + 'px';
 					elCopyStyle.width = elWidth + 'px';
-
-					if(clones.length > 0) {
-						for(var i = clones.length - 1; i > 0; i--) {
-							clones[i].parentNode.removeChild(clones[i]);
-						}
-					}
 				}
 	    } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
 	      elCopyClasses.remove(fixedTableHeaderClass);
