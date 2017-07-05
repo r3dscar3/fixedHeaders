@@ -97,9 +97,6 @@
         fixedHeader.manageFixing();
       }
     }
+    return fixedHeaders;
   }
-
-
-  return fixedHeaders;
-
 })));
