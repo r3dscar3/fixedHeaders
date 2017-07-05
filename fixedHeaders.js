@@ -67,7 +67,8 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
   }
 
   var invoked = void 0;
-  function checkFixing() {
+
+	function checkFixing() {
     if (invoked) return;
     invoked = true;
     fixing();
@@ -75,12 +76,14 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
       invoked = false;
     }, 0);
   }
-	window.addEventListener('resize', function() {
-		fixing();
-	});
-  scrollTarget.addEventListener('scroll', function () {
-    return scrollTarget.requestAnimationFrame(checkFixing);
-  });
+
+	function wrappedCheckFixing() {
+		return scrollTarget.requestAnimationFrame(checkFixing);
+	}
+
+	window.addEventListener('resize', fixing);
+
+  scrollTarget.addEventListener('scroll', wrappedCheckFixing);
 };
 
 function fixedHeaders(target, o) {
