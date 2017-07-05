@@ -19,6 +19,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
   var scrollTarget = this.scrollTarget;
   var fixedHeaderOffset = this.fixedHeaderOffset;
 	var elCopy = el.cloneNode(true);
+	var isElCopyAddedFlag = false;
 	var elCopyStyle = elCopy.style;
   var elCopyClasses = elCopy.classList;
   var elParent = el.parentNode;
@@ -38,6 +39,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 	        elCopyClasses.remove(fixedTableHeaderClass);
 					elParent.removeChild(elCopy);
 					elCopyStyle.position = '';
+					isElCopyAddedFlag = false;
 	      }
 	    } else if (scroll > fixedHeaderstart && scroll < fixedHeaderstop) {
 	      if (!elCopyClasses.contains(fixedTableHeaderClass)) elCopyClasses.add(fixedTableHeaderClass);
@@ -46,12 +48,13 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 					elCopyStyle.bottom = '';
 					elCopyStyle.width = '';
 	      }
-				if (elCopyClasses.contains(fixedTableHeaderClass)) {
+				if (elCopyClasses.contains(fixedTableHeaderClass) && !isElCopyAddedFlag) {
 					elParent.appendChild(elCopy);
 					elCopyClasses.add('cloned');
 					elCopyStyle.position = 'fixed';
 					elCopyStyle.top = fixedHeaderOffset + 'px';
 					elCopyStyle.width = elWidth + 'px';
+					isElCopyAddedFlag = true;
 				}
 	    } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
 	      elCopyClasses.remove(fixedTableHeaderClass);
