@@ -93,7 +93,7 @@ function fixedHeaders(target, o) {
   for (var i = 0; i < els.length; i += 1) {
     var el = els[i];
     fixedHeader = new FixedHeader(el, o);
-    FixedHeader.manageFixing();
+    fixedHeader.manageFixing();
   }
 }
 
