@@ -36,7 +36,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 	    if (scroll < fixedHeaderstart) {
 	      if (elCopyClasses.contains(fixedTableHeaderClass)) {
 	        elCopyClasses.remove(fixedTableHeaderClass);
-					elParent.removeChild(elParent.lastChild);
+					elParent.removeChild(elCopy);
 					elCopyStyle.position = '';
 	      }
 	    } else if (scroll > fixedHeaderstart && scroll < fixedHeaderstop) {
