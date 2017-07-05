@@ -5,7 +5,7 @@
 }(this, (function () { 'use strict';
 
 var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
-var fixedTableHeaderClass = 'js-is-fixedHeader';
+var fixedTableHeaderClass = 'js-is-fixyHeader';
 var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
 function FixedHeader(target, o) {
@@ -93,7 +93,7 @@ function fixedHeaders(target, o) {
   for (var i = 0; i < els.length; i += 1) {
     var el = els[i];
     fixedHeader = new FixedHeader(el, o);
-    FixedHeader.manageFixing();
+    fixedHeader.manageFixing();
   }
 }
 
