@@ -130,10 +130,11 @@ function destroy(target) {
 			if (el === trackedHeaders[i].el) {
 				trackedHeader = trackedHeaders[i];
 				trackedHeader.splice(i, 1);
+				break;
 			}
 		}
 
-		trackedHeader.destroy();
+		if (trackedHeader) trackedHeader.destroy();
   }
 }
 
