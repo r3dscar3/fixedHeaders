@@ -129,7 +129,7 @@ function destroy(target) {
 		for (j = 0; j < trackedHeaders.length; j++) {
 			if (el === trackedHeaders[j].el) {
 				trackedHeader = trackedHeaders[j];
-				trackedHeader.splice(j, 1);
+				trackedHeaders.splice(j, 1);
 				break;
 			}
 		}
