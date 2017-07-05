@@ -52,6 +52,12 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 					elCopyStyle.position = 'fixed';
 					elCopyStyle.top = fixedHeaderOffset + 'px';
 					elCopyStyle.width = elWidth + 'px';
+
+					if(clones.length > 0) {
+						for(var i = clones.length - 1; i > 0; i--) {
+							clones[i].parentElement.removeChild(clones[i]);
+						}
+					}
 				}
 	    } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
 	      elCopyClasses.remove(fixedTableHeaderClass);
@@ -60,13 +66,8 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 				elCopyStyle.top = '';
 				elCopyStyle.bottom = lastChildHeight + 'px';
 			}
-		} else {
-			if(clones.length > 0) {
-				for(var i = clones.length - 1; i >= 0; --i) {
-					clones[i].parentElement.removeChild(clones[i]);
-				}
-			}
 		}
+
   }
 
   var invoked = void 0;
