@@ -5,4 +5,4 @@ Elements will fix to defined parent. Based on [StickyBits](https://github.com/do
 `fixedHeaders('element', {options});`
 
 ## Options
-fixedHeaderOffset: top offset(default is 0)
+fixedHeaderOffset: (default is 0)
