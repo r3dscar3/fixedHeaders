@@ -82,15 +82,15 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 		return scrollTarget.requestAnimationFrame(checkFixing);
 	}
 
-	function destroy() {
-		window.removeEventListener('resize', fixing);
-		window.removeEventListener('scroll', wrappedCheckFixing);
-	}
-
 	window.addEventListener('resize', fixing);
 
   scrollTarget.addEventListener('scroll', wrappedCheckFixing);
 };
+
+FixedHeader.prototype.destroy  = function destroy() {
+	window.removeEventListener('resize', fixing);
+	window.removeEventListener('scroll', wrappedCheckFixing);
+}
 
 function create(target, o) {
   var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
