@@ -89,12 +89,11 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 function fixedHeaders(target, o) {
   var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
   if (!('length' in els)) els = [els];
-  var fixedHeader = void 0;
   for (var i = 0; i < els.length; i += 1) {
     var el = els[i];
-    fixedHeader = new FixedHeader(el, o);
-    fixedHeader.manageFixing();
+    return new FixedHeader(el, o).init();
   }
+	return this;
 }
 
 return fixedHeaders;
