@@ -1,0 +1,22 @@
+{
+  "name": "fixed-headers",
+  "version": "1.0.0",
+  "description": "Makes headers affix.",
+  "main": "fixedHeaders.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/r3dscar3/fixedHeaders.git"
+  },
+  "keywords": [
+    "Affix"
+  ],
+  "author": "Nolan Thompson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/r3dscar3/fixedHeaders/issues"
+  },
+  "homepage": "https://github.com/r3dscar3/fixedHeaders#readme"
+}
