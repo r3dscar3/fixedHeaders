@@ -1,5 +1,5 @@
 # Fixed Headers
-Elements will fix to defined parent. Based on [StickyBits](https://github.com/dollarshaveclub/stickybits).
+Elements will fix to defined parent.
 
 ## Usage
 `fixedHeaders('element', {options});`
