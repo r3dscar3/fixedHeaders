@@ -8,13 +8,13 @@ var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
 var fixedTableHeaderClass = 'js-is-fixedHeader';
 var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
-function fixedHeaders(target, o) {
+function FixedHeader(target, o) {
   this.el = target;
   this.scrollTarget = o && o.scrollTarget || window;
   this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
 }
 
-fixedHeaders.prototype.manageFixing = function manageStickiness() {
+FixedHeader.prototype.manageFixing = function manageFixing() {
   var el = this.el;
   var scrollTarget = this.scrollTarget;
   var fixedHeaderOffset = this.fixedHeaderOffset;
@@ -92,8 +92,8 @@ function fixedHeaders(target, o) {
   var fixedHeader = void 0;
   for (var i = 0; i < els.length; i += 1) {
     var el = els[i];
-    fixedHeader = new fixedHeaders(el, o);
-    fixedHeader.manageFixing();
+    fixedHeader = new FixedHeader(el, o);
+    FixedHeader.manageFixing();
   }
 }
 
