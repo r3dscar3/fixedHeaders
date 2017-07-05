@@ -116,20 +116,20 @@ function destroy(target) {
     var el = els[i];
 		var trackedNode;
 		var trackedHeader;
-		var i;
+		var j;
 
-		for (i = 0; i < trackedNodes.length; i++) {
-			if (el === trackedNodes[i]) {
-				trackedNode = trackedNodes[i];
-				trackedNodes.splice(i, 1);
+		for (j = 0; j < trackedNodes.length; j++) {
+			if (el === trackedNodes[j]) {
+				trackedNode = trackedNodes[j];
+				trackedNodes.splice(j, 1);
 				break;
 			}
 		}
 
-		for (i = 0; i < trackedHeaders.length; i++) {
-			if (el === trackedHeaders[i].el) {
-				trackedHeader = trackedHeaders[i];
-				trackedHeader.splice(i, 1);
+		for (j = 0; j < trackedHeaders.length; j++) {
+			if (el === trackedHeaders[j].el) {
+				trackedHeader = trackedHeaders[j];
+				trackedHeader.splice(j, 1);
 				break;
 			}
 		}
