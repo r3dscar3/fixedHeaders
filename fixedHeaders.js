@@ -6,32 +6,32 @@
   'use strict';
 
   var executed = false;
-  var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
-  var fixedTableHeaderClass = 'js-is-fixyHeader';
-  var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
-  function FixedHeader(target, o) {
-    this.el = target;
-    this.scrollTarget = o && o.scrollTarget || window;
-    this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
-  }
+  if (!executed) {
+    var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
+    var fixedTableHeaderClass = 'js-is-fixyHeader';
+    var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
-  FixedHeader.prototype.manageFixing = function manageFixing() {
-    var el = this.el;
-    var scrollTarget = this.scrollTarget;
-    var fixedHeaderOffset = this.fixedHeaderOffset;
-    var elCopy = el.cloneNode(true);
-    var elCopyStyle = elCopy.style;
-    var elCopyClasses = elCopy.classList;
-    var elParent = el.parentNode;
-    var lastChildHeight = el.nextSibling.lastChild.offsetHeight || 0;
-    var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
-    var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
-    var clones = elParent.getElementsByClassName('cloned');
+    function FixedHeader(target, o) {
+      this.el = target;
+      this.scrollTarget = o && o.scrollTarget || window;
+      this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
+    }
 
-    function fixing() {
-      if (!executed) {
-        executed = true;
+    FixedHeader.prototype.manageFixing = function manageFixing() {
+      var el = this.el;
+      var scrollTarget = this.scrollTarget;
+      var fixedHeaderOffset = this.fixedHeaderOffset;
+      var elCopy = el.cloneNode(true);
+      var elCopyStyle = elCopy.style;
+      var elCopyClasses = elCopy.classList;
+      var elParent = el.parentNode;
+      var lastChildHeight = el.nextSibling.lastChild.offsetHeight || 0;
+      var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
+      var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
+      var clones = elParent.getElementsByClassName('cloned');
+
+      function fixing() {
         var browserWidth = window.innerWidth;
         var elWidth = el.offsetWidth;
 
@@ -66,37 +66,39 @@
             elCopyStyle.bottom = lastChildHeight + 'px';
           }
         }
+
+      }
+
+      var invoked = void 0;
+
+      function checkFixing() {
+        if (invoked) return;
+        invoked = true;
+        fixing();
+        window.setTimeout(function() {
+          invoked = false;
+        }, 0);
+      }
+      window.addEventListener('resize', function() {
+        fixing();
+      });
+      scrollTarget.addEventListener('scroll', function() {
+        return scrollTarget.requestAnimationFrame(checkFixing);
+      });
+    };
+
+    function fixedHeaders(target, o) {
+      var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
+      if (!('length' in els)) els = [els];
+      var fixedHeader = void 0;
+      for (var i = 0; i < els.length; i += 1) {
+        var el = els[i];
+        fixedHeader = new FixedHeader(el, o);
+        fixedHeader.manageFixing();
       }
     }
-
-    var invoked = void 0;
-
-    function checkFixing() {
-      if (invoked) return;
-      invoked = true;
-      fixing();
-      window.setTimeout(function() {
-        invoked = false;
-      }, 0);
-    }
-    window.addEventListener('resize', function() {
-      fixing();
-    });
-    scrollTarget.addEventListener('scroll', function() {
-      return scrollTarget.requestAnimationFrame(checkFixing);
-    });
-  };
-
-  function fixedHeaders(target, o) {
-    var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
-    if (!('length' in els)) els = [els];
-    var fixedHeader = void 0;
-    for (var i = 0; i < els.length; i += 1) {
-      var el = els[i];
-      fixedHeader = new FixedHeader(el, o);
-      fixedHeader.manageFixing();
-    }
   }
+
 
   return fixedHeaders;
 
