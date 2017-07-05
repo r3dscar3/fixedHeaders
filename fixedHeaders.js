@@ -8,6 +8,7 @@ var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
 var fixedTableHeaderClass = 'js-is-fixyHeader';
 var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 var trackedNodes = [];
+var trackedHeaders = [];
 
 function FixedHeader(target, o) {
   this.el = target;
@@ -81,12 +82,17 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 		return scrollTarget.requestAnimationFrame(checkFixing);
 	}
 
+	function destroy() {
+		window.removeEventListener('resize', fixing);
+		window.removeEventListener('scroll', wrappedCheckFixing);
+	}
+
 	window.addEventListener('resize', fixing);
 
   scrollTarget.addEventListener('scroll', wrappedCheckFixing);
 };
 
-function fixedHeaders(target, o) {
+function create(target, o) {
   var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
   if (!('length' in els)) els = [els];
   var fixedHeader = void 0;
@@ -95,11 +101,45 @@ function fixedHeaders(target, o) {
 		if (trackedNodes.indexOf(el) === -1) {
 			trackedNodes.push(el);
 	    fixedHeader = new FixedHeader(el, o);
+
+			trackedHeaders.push(fixedHeader);
 	    fixedHeader.manageFixing();
 		}
   }
 }
 
-return fixedHeaders;
+function destroy(target) {
+	var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
+  if (!('length' in els)) els = [els];
+  var fixedHeader = void 0;
+  for (var i = 0; i < els.length; i += 1) {
+    var el = els[i];
+		var trackedNode;
+		var trackedHeader;
+		var i;
+
+		for (i = 0; i < trackedNodes.length; i++) {
+			if (el === trackedNodes[i]) {
+				trackedNode = trackedNodes[i];
+				trackedNodes.splice(i, 1);
+				break;
+			}
+		}
+
+		for (i = 0; i < trackedHeaders.length; i++) {
+			if (el === trackedHeaders[i].el) {
+				trackedHeader = trackedHeaders[i];
+				trackedHeader.splice(i, 1);
+			}
+		}
+
+		trackedHeader.destroy();
+  }
+}
+
+return {
+	create: create,
+	destroy: destroy
+};
 
 })));
