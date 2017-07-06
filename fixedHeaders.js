@@ -29,7 +29,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
   var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
 	var clones = elParent.getElementsByClassName('cloned');
 
-  function fixing() {
+  this.fixing = function fixing() {
 		var browserWidth = window.innerWidth;
 		var elWidth = el.offsetWidth;
 
@@ -69,7 +69,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 
   var invoked = void 0;
 
-	this.checkFixing = function checkFixing() {
+	function checkFixing() {
     if (invoked) return;
     invoked = true;
     fixing();
