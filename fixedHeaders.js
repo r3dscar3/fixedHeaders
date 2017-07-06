@@ -72,7 +72,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 	function checkFixing() {
     if (invoked) return;
     invoked = true;
-    fixing();
+    this.fixing();
     window.setTimeout(function () {
       invoked = false;
     }, 0);
