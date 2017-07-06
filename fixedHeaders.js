@@ -79,7 +79,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
   }
 
 	this.wrappedCheckFixing = function wrappedCheckFixing() {
-		return scrollTarget.requestAnimationFrame(checkFixing);
+		return scrollTarget.requestAnimationFrame(checkFixing.bind(this));
 	}
 
 	window.addEventListener('resize', this.fixing);
