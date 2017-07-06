@@ -1,147 +1,124 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
-	typeof define === 'function' && define.amd ? define(factory) :
-	(global.fixedHeaders = factory());
-}(this, (function () { 'use strict';
+(function(global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+        typeof define === 'function' && define.amd ? define(factory) :
+        (global.fixedHeaders = factory());
+}(this, (function() {
+    'use strict';
 
-var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
-var fixedTableHeaderClass = 'js-is-fixyHeader';
-var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
-var trackedNodes = [];
-var trackedHeaders = [];
+    var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
+    var fixedTableHeaderClass = 'js-is-fixyHeader';
+    var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
-function FixedHeader(target, o) {
-  this.el = target;
-  this.scrollTarget = o && o.scrollTarget || window;
-  this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
-}
+    function FixedHeader(target, o) {
+        this.el = target;
+        this.elCopy = this.el.cloneNode(true);
+        this.elCopyAttached = false;
+        this.scrollTarget = o && o.scrollTarget || window;
+        this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
+    }
 
-FixedHeader.prototype.manageFixing = function manageFixing() {
-  var el = this.el;
-  var scrollTarget = this.scrollTarget;
-  var fixedHeaderOffset = this.fixedHeaderOffset;
-	var elCopy = el.cloneNode(true);
-	var elCopyStyle = elCopy.style;
-  var elCopyClasses = elCopy.classList;
-  var elParent = el.parentNode;
-	var lastChildHeight = el.nextSibling.lastChild.offsetHeight || 0;
-  var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
-  var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
-	var clones = elParent.getElementsByClassName('cloned');
+    FixedHeader.prototype.manageFixing = function manageFixing() {
+        var el = this.el;
+        var elCopy = this.elCopy;
+        var fixedHeaderOffset = this.fixedHeaderOffset;
+        var elCopyStyle = elCopy.style;
+        var elCopyClasses = elCopy.classList;
+        var elParent = el.parentNode;
+        var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
+        var lastChildHeight = el.nextSibling.lastChild.offsetHeight || 0;
+        var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
+        var scrollTarget = this.scrollTarget;
 
-  this.fixing = function fixing() {
-		var browserWidth = window.innerWidth;
-		var elWidth = el.offsetWidth;
+        this.fixing = () => {
+            var elWidth = el.offsetWidth;
+            var browserWidth = window.innerWidth;
 
-		if (browserWidth > el.scrollWidth) {
-			var scroll = scrollTarget.scrollY;
-	    if (scroll < fixedHeaderstart) {
-	      if (elCopyClasses.contains(fixedTableHeaderClass)) {
-	        elCopyClasses.remove(fixedTableHeaderClass);
-					elParent.removeChild(elCopy);
-					elCopyStyle.position = '';
-	      }
-	    } else if (scroll > fixedHeaderstart && scroll < fixedHeaderstop) {
-	      if (!elCopyClasses.contains(fixedTableHeaderClass)) elCopyClasses.add(fixedTableHeaderClass);
-	      if (elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
-	        elCopyClasses.remove(fixedTableHeaderIsStuckClass);
-					elCopyStyle.bottom = '';
-					elCopyStyle.width = '';
-	      }
-				if (elCopyClasses.contains(fixedTableHeaderClass)) {
-					elParent.appendChild(elCopy);
-					elCopyClasses.add('cloned');
-					elCopyStyle.position = 'fixed';
-					elCopyStyle.top = fixedHeaderOffset + 'px';
-					elCopyStyle.width = elWidth + 'px';
+            if (browserWidth > el.scrollWidth) {
+                var scroll = scrollTarget.scrollY;
+                if (scroll < fixedHeaderstart) {
+                    if (elCopyClasses.contains(fixedTableHeaderClass)) {
+                        elCopyClasses.remove(fixedTableHeaderClass);
+                        elCopyStyle.position = '';
 
-				}
-	    } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
-	      elCopyClasses.remove(fixedTableHeaderClass);
-	      elCopyClasses.add(fixedTableHeaderIsStuckClass);
-				elCopyStyle.position = 'absolute';
-				elCopyStyle.top = '';
-				elCopyStyle.bottom = lastChildHeight + 'px';
-			}
-		}
+                        if (this.elCopyAttached) {
+                            elParent.removeChild(elCopy);
+                            this.elCopyAttached = false;
+                        }
+                    }
+                } else if (scroll > fixedHeaderstart && scroll < fixedHeaderstop) {
+                    if (!elCopyClasses.contains(fixedTableHeaderClass)) elCopyClasses.add(fixedTableHeaderClass);
+                    if (elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
+                        elCopyClasses.remove(fixedTableHeaderIsStuckClass);
+                        elCopyStyle.bottom = '';
+                        elCopyStyle.position = 'fixed';
+                        elCopyStyle.top = fixedHeaderOffset + 'px';
+                        elCopyStyle.width = elWidth + 'px';
+                    }
+                    if (elCopyClasses.contains(fixedTableHeaderClass) && !this.elCopyAttached) {
+                        elParent.appendChild(elCopy);
+                        elCopyClasses.add('cloned');
+                        elCopyStyle.position = 'fixed';
+                        elCopyStyle.top = fixedHeaderOffset + 'px';
+                        elCopyStyle.width = elWidth + 'px';
+                        this.elCopyAttached = true;
+                    }
+                } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
+                    elCopyClasses.remove(fixedTableHeaderClass);
+                    elCopyClasses.add(fixedTableHeaderIsStuckClass);
+                    elCopyStyle.position = 'absolute';
+                    elCopyStyle.top = '';
+                    elCopyStyle.bottom = lastChildHeight + 'px';
+                }
+            }
+        }
 
-  }
+        this.getDoFixingOnAnimationFrame = () => {
+            return this.scrollTarget.requestAnimationFrame(this.fixing);
+        }
 
-  var invoked = void 0;
+        this.removeChildrenThenFix = () => {
+            if (this.elCopyAttached) {
+                elParent.removeChild(elCopy);
+                this.elCopyAttached = false;
+            }
 
-	function checkFixing() {
-    if (invoked) return;
-    invoked = true;
-    this.fixing();
-    window.setTimeout(function () {
-      invoked = false;
-    }, 0);
-  }
+            this.fixing();
+        }
 
-	this.wrappedCheckFixing = function wrappedCheckFixing() {
-		return scrollTarget.requestAnimationFrame(checkFixing.bind(this));
-	}
+        window.addEventListener('resize', this.removeChildrenThenFix);
+        this.scrollTarget.addEventListener('scroll', this.getDoFixingOnAnimationFrame);
+    };
 
-	window.addEventListener('resize', this.fixing);
+    FixedHeader.prototype.cleanup = function cleanup() {
+        window.removeEventListener('resize', this.removeChildrenThenFix);
+        this.scrollTarget.removeEventListener('scroll', this.getDoFixingOnAnimationFrame);
+    }
 
-  scrollTarget.addEventListener('scroll', this.wrappedCheckFixing);
+    function MultiFixedHeaders(instances) {
+        var self = this;
 
-};
+        this.privateInstances = instances || [];
+        this.cleanup = function() {
+            self.privateInstances.forEach(function(instance) {
+                instance.cleanup()
+            });
+        }
+    }
 
-FixedHeader.prototype.destroy = function destroy() {
-	window.removeEventListener('resize', this.fixing);
-	window.removeEventListener('scroll', this.wrappedCheckFixing);
-}
+    function create(target, o) {
+        var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
+        var instances = [];
+        if (!('length' in els)) els = [els];
+        for (var i = 0; i < els.length; i += 1) {
+            var el = els[i];
+            var fixedHeader = new FixedHeader(el, o);
+            instances.push(fixedHeader);
+            fixedHeader.manageFixing();
+        }
 
-function create(target, o) {
-  var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
-  if (!('length' in els)) els = [els];
-  var fixedHeader = void 0;
-  for (var i = 0; i < els.length; i += 1) {
-    var el = els[i];
-		if (trackedNodes.indexOf(el) === -1) {
-			trackedNodes.push(el);
-	    fixedHeader = new FixedHeader(el, o);
+        return new MultiFixedHeaders(instances);
+    }
 
-			trackedHeaders.push(fixedHeader);
-	    fixedHeader.manageFixing();
-		}
-  }
-}
-
-function destroy(target) {
-	var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
-  if (!('length' in els)) els = [els];
-  var fixedHeader = void 0;
-  for (var i = 0; i < els.length; i += 1) {
-    var el = els[i];
-		var trackedNode;
-		var trackedHeader;
-		var j;
-
-		for (j = 0; j < trackedNodes.length; j++) {
-			if (el === trackedNodes[j]) {
-				trackedNode = trackedNodes[j];
-				trackedNodes.splice(j, 1);
-				break;
-			}
-		}
-
-		for (j = 0; j < trackedHeaders.length; j++) {
-			if (el === trackedHeaders[j].el) {
-				trackedHeader = trackedHeaders[j];
-				trackedHeaders.splice(j, 1);
-				break;
-			}
-		}
-
-		if (trackedHeader) trackedHeader.destroy();
-  }
-}
-
-return {
-	create: create,
-	destroy: destroy
-};
+    return create;
 
 })));
