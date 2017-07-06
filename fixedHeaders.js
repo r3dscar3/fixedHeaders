@@ -90,7 +90,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 
 FixedHeader.prototype.destroy = function destroy() {
 	window.removeEventListener('resize', FixedHeader.fixing);
-	window.removeEventListener('scroll', wrappedCheckFixing);
+	window.removeEventListener('scroll', FixedHeader.wrappedCheckFixing);
 }
 
 function create(target, o) {
