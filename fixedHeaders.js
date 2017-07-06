@@ -86,7 +86,7 @@
         }
 
         window.addEventListener('resize', this.removeChildrenThenFix);
-        this.scrollTarget.addEventListener('scroll', this.getDoFixingOnAnimationFrame);
+        scrollTarget.addEventListener('scroll', this.getDoFixingOnAnimationFrame);
     };
 
     FixedHeader.prototype.cleanup = function cleanup() {
