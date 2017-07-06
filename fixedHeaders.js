@@ -85,10 +85,11 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 	window.addEventListener('resize', fixing);
 
   scrollTarget.addEventListener('scroll', wrappedCheckFixing);
+
 };
 
-FixedHeader.prototype.destroy  = function destroy() {
-	window.removeEventListener('resize', fixing);
+FixedHeader.prototype.destroy = function destroy() {
+	window.removeEventListener('resize', FixedHeader.fixing);
 	window.removeEventListener('scroll', wrappedCheckFixing);
 }
 
