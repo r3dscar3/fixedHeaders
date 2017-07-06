@@ -100,7 +100,7 @@
         this.privateInstances = instances || [];
         this.cleanup = function() {
             self.privateInstances.forEach(function(instance) {
-                instance.cleanup()
+                instance.cleanup();
             });
         }
     }
