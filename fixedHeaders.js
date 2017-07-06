@@ -82,9 +82,9 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 		return scrollTarget.requestAnimationFrame(checkFixing);
 	}
 
-	window.addEventListener('resize', fixing);
+	window.addEventListener('resize', this.fixing);
 
-  scrollTarget.addEventListener('scroll', wrappedCheckFixing);
+  scrollTarget.addEventListener('scroll', this.wrappedCheckFixing);
 
 };
 
