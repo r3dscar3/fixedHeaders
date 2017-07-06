@@ -69,7 +69,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 
   var invoked = void 0;
 
-	function checkFixing() {
+	this.checkFixing = function checkFixing() {
     if (invoked) return;
     invoked = true;
     fixing();
@@ -78,7 +78,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
     }, 0);
   }
 
-	function wrappedCheckFixing() {
+	this.wrappedCheckFixing = function wrappedCheckFixing() {
 		return scrollTarget.requestAnimationFrame(checkFixing);
 	}
 
