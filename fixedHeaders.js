@@ -107,6 +107,7 @@
     function create(target, o) {
         var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
         var instances = [];
+        
         if (!('length' in els)) els = [els];
         for (var i = 0; i < els.length; i += 1) {
             var el = els[i];
