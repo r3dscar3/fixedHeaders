@@ -13,11 +13,13 @@
         this.el = target;
         this.elCopy = this.el.cloneNode(true);
         this.elCopyAttached = false;
-        this.scrollTarget = o && o.scrollTarget || window;
+        this.releaseAtLastSibling = o && o.releaseAtLastSibling || false;
+        this.scrollTarget = o && document.getElementById(o.scrollTarget) || window;
         this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
     }
 
     FixedHeader.prototype.manageFixing = function manageFixing() {
+        var _this = this;
         var el = this.el;
         var elCopy = this.elCopy;
         var fixedHeaderOffset = this.fixedHeaderOffset;
@@ -25,11 +27,12 @@
         var elCopyClasses = elCopy.classList;
         var elParent = el.parentNode;
         var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
-        var lastChildHeight = el.nextSibling.lastChild.offsetHeight || 0;
+        var releaseAtLastSibling = this.releaseAtLastSibling;
+        var lastChildHeight = releaseAtLastSibling ? el.nextSibling.lastChild.offsetHeight : 0;
         var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
         var scrollTarget = this.scrollTarget;
 
-        this.fixing = () => {
+        this.fixing = function() {
             var elWidth = el.offsetWidth;
             var browserWidth = window.innerWidth;
 
@@ -40,9 +43,9 @@
                         elCopyClasses.remove(fixedTableHeaderClass);
                         elCopyStyle.position = '';
 
-                        if (this.elCopyAttached) {
+                        if (_this.elCopyAttached) {
                             elParent.removeChild(elCopy);
-                            this.elCopyAttached = false;
+                            _this.elCopyAttached = false;
                         }
                     }
                 } else if (scroll > fixedHeaderstart && scroll < fixedHeaderstop) {
@@ -54,13 +57,13 @@
                         elCopyStyle.top = fixedHeaderOffset + 'px';
                         elCopyStyle.width = elWidth + 'px';
                     }
-                    if (elCopyClasses.contains(fixedTableHeaderClass) && !this.elCopyAttached) {
+                    if (elCopyClasses.contains(fixedTableHeaderClass) && !_this.elCopyAttached) {
                         elParent.appendChild(elCopy);
                         elCopyClasses.add('cloned');
                         elCopyStyle.position = 'fixed';
                         elCopyStyle.top = fixedHeaderOffset + 'px';
                         elCopyStyle.width = elWidth + 'px';
-                        this.elCopyAttached = true;
+                        _this.elCopyAttached = true;
                     }
                 } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
                     elCopyClasses.remove(fixedTableHeaderClass);
@@ -70,20 +73,20 @@
                     elCopyStyle.bottom = lastChildHeight + 'px';
                 }
             }
-        }
+        };
 
-        this.getDoFixingOnAnimationFrame = () => {
-            return this.scrollTarget.requestAnimationFrame(this.fixing);
-        }
+        this.getDoFixingOnAnimationFrame = function() {
+            return _this.scrollTarget.requestAnimationFrame(_this.fixing);
+        };
 
-        this.removeChildrenThenFix = () => {
-            if (this.elCopyAttached) {
+        this.removeChildrenThenFix = function() {
+            if (_this.elCopyAttached) {
                 elParent.removeChild(elCopy);
-                this.elCopyAttached = false;
+                _this.elCopyAttached = false;
             }
 
-            this.fixing();
-        }
+            _this.fixing();
+        };
 
         window.addEventListener('resize', this.removeChildrenThenFix);
         scrollTarget.addEventListener('scroll', this.getDoFixingOnAnimationFrame);
@@ -92,7 +95,7 @@
     FixedHeader.prototype.cleanup = function cleanup() {
         window.removeEventListener('resize', this.removeChildrenThenFix);
         this.scrollTarget.removeEventListener('scroll', this.getDoFixingOnAnimationFrame);
-    }
+    };
 
     function MultiFixedHeaders(instances) {
         var self = this;
@@ -102,7 +105,7 @@
             self.privateInstances.forEach(function(instance) {
                 instance.cleanup();
             });
-        }
+        };
     }
 
     function create(target, o) {
