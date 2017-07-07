@@ -37,7 +37,7 @@
             var browserWidth = window.innerWidth;
 
             if (browserWidth > el.scrollWidth) {
-                var scroll = scrollTarget.scrollY;
+                var scroll = scrollTarget.scrollTop;
                 if (scroll < fixedHeaderstart) {
                     if (elCopyClasses.contains(fixedTableHeaderClass)) {
                         elCopyClasses.remove(fixedTableHeaderClass);
@@ -75,10 +75,6 @@
             }
         };
 
-        this.getDoFixingOnAnimationFrame = function() {
-            return _this.scrollTarget.requestAnimationFrame(_this.fixing);
-        };
-
         this.removeChildrenThenFix = function() {
             if (_this.elCopyAttached) {
                 elParent.removeChild(elCopy);
@@ -89,12 +85,12 @@
         };
 
         window.addEventListener('resize', this.removeChildrenThenFix);
-        scrollTarget.addEventListener('scroll', this.getDoFixingOnAnimationFrame);
+        scrollTarget.addEventListener('scroll', _this.fixing);
     };
 
     FixedHeader.prototype.cleanup = function cleanup() {
         window.removeEventListener('resize', this.removeChildrenThenFix);
-        this.scrollTarget.removeEventListener('scroll', this.getDoFixingOnAnimationFrame);
+        this.scrollTarget.removeEventListener('scroll', _this.fixing);
     };
 
     function MultiFixedHeaders(instances) {
