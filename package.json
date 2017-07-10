@@ -2,9 +2,9 @@
   "name": "fixed-headers",
   "version": "2.2.0",
   "description": "Makes headers affix.",
-  "main": "./dist/fixedHeaders.min.js",
+  "main": "./dist/fixedHeaders.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "babel src -d dist"
   },
   "repository": {
     "type": "git",
@@ -20,6 +20,11 @@
   },
   "homepage": "https://github.com/r3dscar3/fixedHeaders#readme",
   "devDependencies": {
-    "webpack": "^3.1.0"
+    "babel": "^6.23.0",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-es2015-webpack": "^6.4.3"
   }
 }
