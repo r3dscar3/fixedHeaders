@@ -2,7 +2,7 @@
   "name": "fixed-headers",
   "version": "2.1.0",
   "description": "Makes headers affix.",
-  "main": "fixedHeaders.js",
+  "main": "fixedHeaders.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
