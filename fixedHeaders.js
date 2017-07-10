@@ -14,7 +14,7 @@
         this.elCopy = this.el.cloneNode(true);
         this.elCopyAttached = false;
         this.releaseAtLastSibling = o && o.releaseAtLastSibling || false;
-        this.scrollTarget = o && document.getElementById(o.scrollTarget) || window;
+        this.scrollTarget = o && o.scrollTarget ? document.getElementById(o.scrollTarget) : window;
         this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
     }
 
@@ -107,7 +107,7 @@
     function create(target, o) {
         var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
         var instances = [];
-        
+
         if (!('length' in els)) els = [els];
         for (var i = 0; i < els.length; i += 1) {
             var el = els[i];
