@@ -37,7 +37,7 @@
             var browserWidth = window.innerWidth;
 
             if (browserWidth > el.scrollWidth) {
-                var scroll = scrollTarget.scrollTop;
+                var scroll = scrollTarget === window ? scrollTarget.scrollY : scrollTarget.scrollTop;
                 if (scroll < fixedHeaderstart) {
                     if (elCopyClasses.contains(fixedTableHeaderClass)) {
                         elCopyClasses.remove(fixedTableHeaderClass);
