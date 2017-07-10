@@ -1,6 +1,6 @@
-var browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
-var fixedTableHeaderClass = 'js-is-fixyHeader';
-var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
+let browserPrefix = ['', '-o-', '-webkit-', '-moz-', '-ms-'];
+let fixedTableHeaderClass = 'js-is-fixyHeader';
+let fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
 function FixedHeader(target, o) {
     this.el = target;
@@ -12,24 +12,24 @@ function FixedHeader(target, o) {
 }
 
 FixedHeader.prototype.manageFixing = function manageFixing() {
-    var el = this.el;
-    var elCopy = this.elCopy;
-    var fixedHeaderOffset = this.fixedHeaderOffset;
-    var elCopyStyle = elCopy.style;
-    var elCopyClasses = elCopy.classList;
-    var elParent = el.parentNode;
-    var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
-    var releaseAtLastSibling = this.releaseAtLastSibling;
-    var lastChildHeight = releaseAtLastSibling ? el.nextSibling.lastChild.offsetHeight : 0;
-    var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
-    var scrollTarget = this.scrollTarget;
+    let el = this.el;
+    let elCopy = this.elCopy;
+    let fixedHeaderOffset = this.fixedHeaderOffset;
+    let elCopyStyle = elCopy.style;
+    let elCopyClasses = elCopy.classList;
+    let elParent = el.parentNode;
+    let fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
+    let releaseAtLastSibling = this.releaseAtLastSibling;
+    let lastChildHeight = releaseAtLastSibling ? el.nextSibling.lastChild.offsetHeight : 0;
+    let fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
+    let scrollTarget = this.scrollTarget;
 
     this.fixing = () => {
-        var elWidth = el.offsetWidth;
-        var browserWidth = window.innerWidth;
+        let elWidth = el.offsetWidth;
+        let browserWidth = window.innerWidth;
 
         if (browserWidth > el.scrollWidth) {
-            var scroll = scrollTarget === window ? scrollTarget.scrollY : scrollTarget.scrollTop;
+            let scroll = scrollTarget === window ? scrollTarget.scrollY : scrollTarget.scrollTop;
             if (scroll < fixedHeaderstart) {
                 if (elCopyClasses.contains(fixedTableHeaderClass)) {
                     elCopyClasses.remove(fixedTableHeaderClass);
@@ -90,7 +90,7 @@ FixedHeader.prototype.cleanup = function cleanup() {
 }
 
 function MultiFixedHeaders(instances) {
-    var self = this;
+    let self = this;
 
     this.privateInstances = instances || [];
     this.cleanup = function() {
@@ -101,12 +101,12 @@ function MultiFixedHeaders(instances) {
 }
 
 export default function(target, o) {
-    var els = typeof target === 'string' ? document.querySelectorAll(target) : target;
-    var instances = [];
+    let els = typeof target === 'string' ? document.querySelectorAll(target) : target;
+    let instances = [];
     if (!('length' in els)) els = [els];
-    for (var i = 0; i < els.length; i += 1) {
-        var el = els[i];
-        var fixedHeader = new FixedHeader(el, o);
+    for (let i = 0; i < els.length; i += 1) {
+        let el = els[i];
+        let fixedHeader = new FixedHeader(el, o);
         instances.push(fixedHeader);
         fixedHeader.manageFixing();
     }
