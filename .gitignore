@@ -1,2 +1,4 @@
 .DS_Store
 *.pug
+node_modules
+webpack.config.js
