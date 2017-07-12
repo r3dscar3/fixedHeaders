@@ -26,9 +26,8 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
 
     this.fixing = () => {
         let elWidth = el.offsetWidth;
-        let browserWidth = window.innerWidth;
 
-        if (browserWidth > el.scrollWidth) {
+        if (elParent.innerWidth >= el.scrollWidth) {
             let scroll = scrollTarget === window ? scrollTarget.scrollY : scrollTarget.scrollTop;
             if (scroll < fixedHeaderstart) {
                 if (elCopyClasses.contains(fixedTableHeaderClass)) {

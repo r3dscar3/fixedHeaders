@@ -1,6 +1,6 @@
 {
   "name": "fixed-headers",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Makes headers affix.",
   "main": "./dist/fixedHeaders.js",
   "scripts": {
