@@ -1,5 +1,5 @@
 {
-  "name": "fixed-headers",
+  "name": "@nhl/fixed-headers",
   "version": "2.3.2",
   "description": "Makes headers affix.",
   "main": "./dist/fixedHeaders.js",
@@ -14,7 +14,7 @@
     "Affix"
   ],
   "author": "Nolan Thompson",
-  "license": "",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/r3dscar3/fixedHeaders/issues"
   },
@@ -26,5 +26,6 @@
     "babel-loader": "^7.1.1",
     "babel-preset-env": "^1.6.0",
     "babel-preset-es2015-webpack": "^6.4.3"
-  }
+  },
+  "dependencies": {}
 }
