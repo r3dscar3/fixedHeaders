@@ -24,7 +24,6 @@ var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
 function FixedHeader(target, o) {
     this.el = target;
-
     this.elCopy = this.el.cloneNode(true);
     this.elCopyAttached = false;
     this.releaseAtLastSibling = o && o.releaseAtLastSibling || false;
@@ -39,7 +38,8 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
     var el = this.el;
     var elCopy = this.elCopy;
     var fixedHeaderOffset = this.fixedHeaderOffset;
-    var border = this.el.style.borderTopWidth || 0;
+    var borderTop = this.el.style.borderTopWidth || 0;
+    var borderBottom = this.el.style.borderBottomWidth || 0;
     var elCopyStyle = elCopy.style;
     var elCopyClasses = elCopy.classList;
     var elParent = el.parentNode;
@@ -47,7 +47,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
     var fixedHeaderstart = el.getBoundingClientRect().top - border - fixedHeaderOffset;
     var releaseAtLastSibling = this.releaseAtLastSibling;
     var lastChildHeight = releaseAtLastSibling ? el.nextSibling.lastChild.offsetHeight : 0;
-    var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
+    var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - (el.offsetHeight + borderTop + borderBottom) - lastChildHeight;
     var scrollTarget = this.scrollTarget;
 
     this.fixing = function () {
