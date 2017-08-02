@@ -4,12 +4,13 @@ let fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
 function FixedHeader(target, o) {
     this.el = target;
+    let border = this.el.style.borderTopWidth;
     this.elCopy = this.el.cloneNode(true);
     this.elCopyAttached = false;
     this.releaseAtLastSibling = o && o.releaseAtLastSibling || false;
     this.ignoreParentWidth = o && o.ignoreParentWidth || false;
     this.scrollTarget = o && o.scrollTarget ? document.getElementById(o.scrollTarget) : window;
-    this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
+    this.fixedHeaderOffset = o && o.fixedHeaderOffset + border || 0;
 }
 
 FixedHeader.prototype.manageFixing = function manageFixing() {
