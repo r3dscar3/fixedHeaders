@@ -24,13 +24,13 @@ var fixedTableHeaderIsStuckClass = 'js-is-fixedHeader';
 
 function FixedHeader(target, o) {
     this.el = target;
-    var border = this.el.style.borderTopWidth;
+
     this.elCopy = this.el.cloneNode(true);
     this.elCopyAttached = false;
     this.releaseAtLastSibling = o && o.releaseAtLastSibling || false;
     this.ignoreParentWidth = o && o.ignoreParentWidth || false;
     this.scrollTarget = o && o.scrollTarget ? document.getElementById(o.scrollTarget) : window;
-    this.fixedHeaderOffset = o && o.fixedHeaderOffset + border || 0;
+    this.fixedHeaderOffset = o && o.fixedHeaderOffset || 0;
 }
 
 FixedHeader.prototype.manageFixing = function manageFixing() {
@@ -39,11 +39,12 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
     var el = this.el;
     var elCopy = this.elCopy;
     var fixedHeaderOffset = this.fixedHeaderOffset;
+    var border = this.el.style.borderTopWidth || 0;
     var elCopyStyle = elCopy.style;
     var elCopyClasses = elCopy.classList;
     var elParent = el.parentNode;
     var ignoreParentWidth = this.ignoreParentWidth;
-    var fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
+    var fixedHeaderstart = el.getBoundingClientRect().top - border - fixedHeaderOffset;
     var releaseAtLastSibling = this.releaseAtLastSibling;
     var lastChildHeight = releaseAtLastSibling ? el.nextSibling.lastChild.offsetHeight : 0;
     var fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - el.offsetHeight - lastChildHeight;
