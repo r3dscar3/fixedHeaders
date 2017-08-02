@@ -22,10 +22,10 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
     let elCopyClasses = elCopy.classList;
     let elParent = el.parentNode;
     let ignoreParentWidth = this.ignoreParentWidth;
-    let fixedHeaderstart = el.getBoundingClientRect().top - borderTop - fixedHeaderOffset;
+    let fixedHeaderstart = el.getBoundingClientRect().top - fixedHeaderOffset;
     let releaseAtLastSibling = this.releaseAtLastSibling;
     let lastChildHeight = releaseAtLastSibling ? el.nextSibling.lastChild.offsetHeight : 0;
-    let fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - (el.offsetHeight + borderBottom) - lastChildHeight;
+    let fixedHeaderstop = fixedHeaderstart + elParent.offsetHeight - (el.offsetHeight + borderBottom + borderTop) - lastChildHeight;
     let scrollTarget = this.scrollTarget;
 
     this.fixing = () => {
