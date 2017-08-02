@@ -41,7 +41,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
                         this.elCopyAttached = false;
                     }
                 }
-            } else if (scroll > fixedHeaderstart && scroll < fixedHeaderstop) {
+            } else if (scroll >= fixedHeaderstart && scroll < fixedHeaderstop) {
                 if (!elCopyClasses.contains(fixedTableHeaderClass)) elCopyClasses.add(fixedTableHeaderClass);
                 if (elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
                     elCopyClasses.remove(fixedTableHeaderIsStuckClass);
@@ -58,7 +58,7 @@ FixedHeader.prototype.manageFixing = function manageFixing() {
                     elCopyStyle.width = elWidth + 'px';
                     this.elCopyAttached = true;
                 }
-            } else if (scroll > fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
+            } else if (scroll >= fixedHeaderstop && !elCopyClasses.contains(fixedTableHeaderIsStuckClass)) {
                 elCopyClasses.remove(fixedTableHeaderClass);
                 elCopyClasses.add(fixedTableHeaderIsStuckClass);
                 elCopyStyle.position = 'absolute';
